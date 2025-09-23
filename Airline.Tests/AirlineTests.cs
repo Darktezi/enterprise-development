@@ -4,21 +4,21 @@ using Airline.Domain.Fixtures;
 namespace Airline.Tests;
 
 /// <summary>
-/// ёнит-тесты дл€ проверки выборок и агрегатов
-/// на данных <see cref="AirCompanyFixture10"/>.
+/// Unit tests for validating queries and aggregates
+/// using data from <see cref="AirlineFixture"/>.
 /// </summary>
 public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture>
 {
     /// <summary>
-    /// ѕроверка: топ-5 рейсов с наибольшим числом пассажиров.
+    /// Checks top-5 flights with the highest number of passengers.
     /// </summary>
     [Fact]
     public void TopFlightsByPassengerCount_ShouldBeCorrectlyOrdered()
     {
         var topFlights = fixture.Flights
-        .OrderByDescending(f => f.Tickets?.Count ?? 0)
-        .Take(5)
-        .ToList();
+            .OrderByDescending(f => f.Tickets?.Count ?? 0)
+            .Take(5)
+            .ToList();
 
         Assert.NotEmpty(topFlights);
         Assert.True(topFlights.Count <= 5);
@@ -29,12 +29,12 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
             var nextCount = topFlights[i + 1].Tickets?.Count ?? 0;
 
             Assert.True(currentCount >= nextCount,
-                $"Flight {topFlights[i].Code} должно иметь >= пассажиров, чем {topFlights[i + 1].Code}");
+                $"Flight {topFlights[i].Code} should have >= passengers than {topFlights[i + 1].Code}");
         }
     }
 
     /// <summary>
-    /// ѕроверка: рейсы с минимальным временем полета.
+    /// Checks flights with the shortest duration.
     /// </summary>
     [Fact]
     public void FlightsWithShortestDuration_ShouldMatchMinimalTime()
@@ -44,12 +44,12 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
             .Where(f => f.TravelTime == shortestTime)
             .ToList();
 
-        Assert.All(flights, f => Assert.Equal(shortestTime, f.TravelTime));
         Assert.NotEmpty(flights);
+        Assert.All(flights, f => Assert.Equal(shortestTime, f.TravelTime));
     }
 
     /// <summary>
-    /// ѕроверка: пассажиры рейса без багажа, упор€доченные по имени.
+    /// Checks passengers of a flight without baggage, ordered by full name.
     /// </summary>
     [Fact]
     public void PassengersWithoutBaggage_ShouldBeSortedByName()
@@ -62,11 +62,11 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
             .ToList() ?? new List<Passenger>();
 
         Assert.All(passengers, p =>
-            Assert.Contains(p.Tickets!, t => t.Flight == flight && t.BaggageWeight == 0));
+            Assert.Contains(p.Tickets ?? new List<Ticket>(), t => t.Flight == flight && t.BaggageWeight == 0));
     }
 
     /// <summary>
-    /// ѕроверка: полеты самолета конкретной модели в заданный период.
+    /// Checks flights of a specific aircraft model within a date range.
     /// </summary>
     [Fact]
     public void FlightsOfModelWithinPeriod_ShouldReturnCorrectFlights()
@@ -85,12 +85,12 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
         {
             Assert.Equal(model, f.AircraftModel);
             Assert.NotNull(f.DepartureDate);
-            Assert.InRange(f.DepartureDate.Value, from, to);
+            Assert.InRange(f.DepartureDate!.Value, from, to);
         });
     }
 
     /// <summary>
-    /// ѕроверка: рейсы между конкретными аэропортами.
+    /// Checks flights between specific departure and arrival airports.
     /// </summary>
     [Fact]
     public void FlightsBetweenAirports_ShouldMatchRoute()

@@ -1,37 +1,37 @@
 ﻿namespace Airline.Domain.Entities;
 
 /// <summary>
-/// Класс, представляющий билет на рейс.
+/// Class representing a flight ticket.
 /// </summary>
 public class Ticket
 {
     /// <summary>
-    /// Уникальный идентификатор билета.
+    /// Unique identifier of the ticket.
     /// </summary>
     public required int Id { get; set; }
 
     /// <summary>
-    /// Рейс, на который оформлен билет.
+    /// Flight for which the ticket is issued.
     /// </summary>
     public required Flight Flight { get; set; }
 
     /// <summary>
-    /// Пассажир, на которого оформлен билет.
+    /// Passenger for whom the ticket is issued.
     /// </summary>
     public required Passenger Passenger { get; set; }
 
     /// <summary>
-    /// Номер места в самолете.
+    /// Seat number on the aircraft.
     /// </summary>
     public required string SeatNumber { get; set; }
 
     /// <summary>
-    /// Наличие ручной клади.
+    /// Indicates whether the passenger has hand luggage.
     /// </summary>
     public bool HasHandLuggage { get; set; }
 
     /// <summary>
-    /// Вес зарегистрированного багажа в килограммах (если есть).
+    /// Weight of checked baggage in kilograms (if any).
     /// </summary>
     public double? BaggageWeight { get; set; }
 }

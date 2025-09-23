@@ -1,22 +1,46 @@
 ﻿using Airline.Domain.Entities;
 
 namespace Airline.Domain.Fixtures;
+
+/// <summary>
+/// Fixture for testing the airline domain.
+/// Initializes exactly 10 entities for each class:
+/// <see cref="AircraftFamily"/>, <see cref="AircraftModel"/>,
+/// <see cref="Flight"/>, <see cref="Passenger"/>, and <see cref="Ticket"/>.
+/// Used for unit tests with predefined data.
+/// </summary>
 public class AirlineFixture
 {
+    /// <summary>
+    /// List of aircraft families.
+    /// </summary>
     public List<AircraftFamily> Families { get; } = [];
+
+    /// <summary>
+    /// List of aircraft models.
+    /// </summary>
     public List<AircraftModel> Models { get; } = [];
+
+    /// <summary>
+    /// List of flights.
+    /// </summary>
     public List<Flight> Flights { get; } = [];
+
+    /// <summary>
+    /// List of passengers.
+    /// </summary>
     public List<Passenger> Passengers { get; } = [];
+
+    /// <summary>
+    /// List of tickets linking passengers to flights.
+    /// </summary>
     public List<Ticket> Tickets { get; } = [];
 
     private int _ticketId = 1;
 
     /// <summary>
-    /// Конструктор инициализирует тестовый набор данных.
-    /// Создает ровно по 10 сущностей для классов:
-    /// <see cref="AircraftFamily"/>, <see cref="AircraftModel"/>, 
-    /// <see cref="Flight"/>, <see cref="Passenger"/> и <see cref="Ticket"/>.
-    /// Используется для юнит-тестов с предопределенными данными.
+    /// Constructor initializes the fixture with sample data,
+    /// creating 10 entities for each class.
     /// </summary>
     public AirlineFixture()
     {
@@ -73,12 +97,12 @@ public class AirlineFixture
         {
             var flight = Flights[i];
             var passenger = Passengers[i];
-            AddTicket(flight, passenger, $"{12 + i}A", i % 2 == 0, i); // багажа от 0 до 9 кг
+            AddTicket(flight, passenger, $"{12 + i}A", i % 2 == 0, i);
         }
     }
 
     /// <summary>
-    /// Добавляет билет и связывает его с рейсом и пассажиром.
+    /// Adds a ticket and links it with a flight and a passenger.
     /// </summary>
     private void AddTicket(Flight flight, Passenger passenger, string seat, bool hasHandLuggage, double baggageWeight)
     {
