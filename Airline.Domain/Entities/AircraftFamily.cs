@@ -8,7 +8,7 @@ public class AircraftFamily
     /// <summary>
     /// Уникальный идентификатор семейства самолетов.
     /// </summary>
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     /// <summary>
     /// Название семейства самолетов (например, "Boeing 737").
@@ -23,5 +23,5 @@ public class AircraftFamily
     /// <summary>
     /// Список моделей самолетов, относящихся к этому семейству.
     /// </summary>
-    public List<AircraftModel> Models { get; set; } = new List<AircraftModel>();
+    public List<AircraftModel>? Models { get; set; } = new List<AircraftModel>();
 }

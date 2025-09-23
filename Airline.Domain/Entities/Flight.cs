@@ -8,7 +8,7 @@ public class Flight
     /// <summary>
     /// Уникальный идентификатор рейса.
     /// </summary>
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     /// <summary>
     /// Код рейса (например, "QF025").
@@ -48,5 +48,5 @@ public class Flight
     /// <summary>
     /// Список билетов, оформленных на этот рейс.
     /// </summary>
-    public List<Ticket> Tickets { get; set; } = new List<Ticket>();
+    public List<Ticket>? Tickets { get; set; } = new List<Ticket>();
 }

@@ -8,7 +8,7 @@ public class Ticket
     /// <summary>
     /// Уникальный идентификатор билета.
     /// </summary>
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     /// <summary>
     /// Рейс, на который оформлен билет.
@@ -33,5 +33,5 @@ public class Ticket
     /// <summary>
     /// Вес зарегистрированного багажа в килограммах (если есть).
     /// </summary>
-    public decimal? BaggageWeight { get; set; }
+    public double? BaggageWeight { get; set; }
 }

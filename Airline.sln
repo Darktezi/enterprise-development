@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36429.23 d17.14
+VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Domain", "Airline.Domain\Airline.Domain.csproj", "{9C210FF2-BC7A-452B-A767-796B05B28B5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Tests", "Airline.Tests\Airline.Tests.csproj", "{442E3306-519F-43C4-BE5F-3D0C1030375C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9C210FF2-BC7A-452B-A767-796B05B28B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C210FF2-BC7A-452B-A767-796B05B28B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C210FF2-BC7A-452B-A767-796B05B28B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{442E3306-519F-43C4-BE5F-3D0C1030375C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{442E3306-519F-43C4-BE5F-3D0C1030375C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{442E3306-519F-43C4-BE5F-3D0C1030375C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{442E3306-519F-43C4-BE5F-3D0C1030375C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

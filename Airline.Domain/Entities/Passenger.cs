@@ -8,7 +8,7 @@ public class Passenger
     /// <summary>
     /// Уникальный идентификатор пассажира.
     /// </summary>
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     /// <summary>
     /// Номер паспорта пассажира.
@@ -28,5 +28,5 @@ public class Passenger
     /// <summary>
     /// Список билетов, приобретённых пассажиром.
     /// </summary>
-    public List<Ticket> Tickets { get; set; } = [];
+    public List<Ticket>? Tickets { get; set; } = [];
 }
