@@ -1,32 +1,42 @@
 ﻿namespace Airline.Domain.Entities;
 
 /// <summary>
-/// Class representing a passenger.
+/// Класс, представляющий пассажира.
 /// </summary>
 public class Passenger
 {
     /// <summary>
-    /// Unique identifier of the passenger.
+    /// Уникальный идентификатор пассажира.
     /// </summary>
     public required int Id { get; set; }
 
     /// <summary>
-    /// Passport number of the passenger.
+    /// Номер паспорта пассажира.
     /// </summary>
     public required string PassportNumber { get; set; }
 
     /// <summary>
-    /// Full name of the passenger.
+    /// Фамилия пассажира.
     /// </summary>
-    public required string FullName { get; set; }
+    public required string LastName { get; set; }
 
     /// <summary>
-    /// Birth date of the passenger (if known).
+    /// Имя пассажира.
+    /// </summary>
+    public required string FirstName { get; set; }
+
+    /// <summary>
+    /// Отчество пассажира (может отсутствовать).
+    /// </summary>
+    public string? MiddleName { get; set; }
+
+    /// <summary>
+    /// Дата рождения пассажира (если известна).
     /// </summary>
     public DateOnly? BirthDate { get; set; }
 
     /// <summary>
-    /// List of tickets purchased by the passenger.
+    /// Список билетов, приобретённых пассажиром.
     /// </summary>
-    public List<Ticket>? Tickets { get; set; } = new List<Ticket>();
+    public List<Ticket>? Tickets { get; set; } = [];
 }

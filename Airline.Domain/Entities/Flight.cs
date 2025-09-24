@@ -1,52 +1,52 @@
 ﻿namespace Airline.Domain.Entities;
 
 /// <summary>
-/// Class representing a flight.
+/// Класс, представляющий авиарейс.
 /// </summary>
 public class Flight
 {
     /// <summary>
-    /// Unique identifier of the flight.
+    /// Уникальный идентификатор рейса.
     /// </summary>
     public required int Id { get; set; }
 
     /// <summary>
-    /// Flight code (e.g., "QF025").
+    /// Код рейса (например, "QF025").
     /// </summary>
     public required string Code { get; set; }
 
     /// <summary>
-    /// Departure airport.
+    /// Аэропорт отправления.
     /// </summary>
     public required string DepartureAirport { get; set; }
 
     /// <summary>
-    /// Arrival airport.
+    /// Аэропорт прибытия.
     /// </summary>
     public required string ArrivalAirport { get; set; }
 
     /// <summary>
-    /// Date and time of departure (if known).
+    /// Дата и время отправления рейса (если известны).
     /// </summary>
     public DateTime? DepartureDate { get; set; }
 
     /// <summary>
-    /// Date and time of arrival (if known).
+    /// Дата и время прибытия рейса (если известны).
     /// </summary>
     public DateTime? ArrivalDate { get; set; }
 
     /// <summary>
-    /// Flight duration (if known).
+    /// Продолжительность рейса (если известна).
     /// </summary>
     public TimeSpan? TravelTime { get; set; }
 
     /// <summary>
-    /// Aircraft model used for this flight.
+    /// Модель самолета, используемого для рейса.
     /// </summary>
     public required AircraftModel AircraftModel { get; set; }
 
     /// <summary>
-    /// List of tickets booked for this flight.
+    /// Список билетов, оформленных на этот рейс.
     /// </summary>
     public List<Ticket>? Tickets { get; set; } = new List<Ticket>();
 }

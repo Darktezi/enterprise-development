@@ -1,16 +1,16 @@
-using Airline.Domain.Entities;
-using Airline.Domain.Fixtures;
+﻿using Airline.Domain.Entities;
+using Airline.Domain.Data;
 
 namespace Airline.Tests;
 
 /// <summary>
-/// Unit tests for validating queries and aggregates
-/// using data from <see cref="AirlineFixture"/>.
+/// Юнит-тесты для проверки выборок и агрегатов
+/// на данных <see cref="AirlineSeed"/>.
 /// </summary>
-public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture>
+public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
 {
     /// <summary>
-    /// Checks top-5 flights with the highest number of passengers.
+    /// Проверка: топ-5 рейсов с наибольшим числом пассажиров.
     /// </summary>
     [Fact]
     public void TopFlightsByPassengerCount_ShouldBeCorrectlyOrdered()
@@ -29,12 +29,12 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
             var nextCount = topFlights[i + 1].Tickets?.Count ?? 0;
 
             Assert.True(currentCount >= nextCount,
-                $"Flight {topFlights[i].Code} should have >= passengers than {topFlights[i + 1].Code}");
+                $"Рейс {topFlights[i].Code} должно иметь >= пассажиров, чем {topFlights[i + 1].Code}");
         }
     }
 
     /// <summary>
-    /// Checks flights with the shortest duration.
+    /// Проверка: рейсы с минимальным временем полета.
     /// </summary>
     [Fact]
     public void FlightsWithShortestDuration_ShouldMatchMinimalTime()
@@ -49,7 +49,7 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
     }
 
     /// <summary>
-    /// Checks passengers of a flight without baggage, ordered by full name.
+    /// Проверка: пассажиры рейса без багажа, упорядоченные по фамилии и имени.
     /// </summary>
     [Fact]
     public void PassengersWithoutBaggage_ShouldBeSortedByName()
@@ -58,7 +58,8 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
         var passengers = flight.Tickets?
             .Where(t => t.BaggageWeight == 0)
             .Select(t => t.Passenger)
-            .OrderBy(p => p.FullName)
+            .OrderBy(p => p.LastName)
+            .ThenBy(p => p.FirstName)
             .ToList() ?? new List<Passenger>();
 
         Assert.All(passengers, p =>
@@ -66,14 +67,14 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
     }
 
     /// <summary>
-    /// Checks flights of a specific aircraft model within a date range.
+    /// Проверка: полеты самолета конкретной модели в заданный период.
     /// </summary>
     [Fact]
     public void FlightsOfModelWithinPeriod_ShouldReturnCorrectFlights()
     {
         var model = fixture.Models.Last();
-        var from = new DateTime(2025, 9, 1);
-        var to = new DateTime(2025, 9, 30);
+        var from = new DateTime(2025, 10, 1);
+        var to = new DateTime(2025, 10, 31);
 
         var flights = fixture.Flights
             .Where(f => f.AircraftModel == model &&
@@ -90,7 +91,7 @@ public class AirlineTests(AirlineFixture fixture) : IClassFixture<AirlineFixture
     }
 
     /// <summary>
-    /// Checks flights between specific departure and arrival airports.
+    /// Проверка: рейсы между конкретными аэропортами.
     /// </summary>
     [Fact]
     public void FlightsBetweenAirports_ShouldMatchRoute()

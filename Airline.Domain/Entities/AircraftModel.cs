@@ -1,42 +1,42 @@
 ﻿namespace Airline.Domain.Entities;
 
 /// <summary>
-/// Class representing an aircraft model.
+/// Класс, представляющий модель самолета.
 /// </summary>
 public class AircraftModel
 {
     /// <summary>
-    /// Unique identifier of the aircraft model.
+    /// Уникальный идентификатор модели самолета.
     /// </summary>
     public required int Id { get; set; }
 
     /// <summary>
-    /// Name of the aircraft model (e.g., "Boeing 737").
+    /// Название модели самолета (например, "Boeing 737").
     /// </summary>
     public required string ModelName { get; set; }
 
     /// <summary>
-    /// Aircraft family (e.g., narrow-body, wide-body).
+    /// Семейство самолета (например, узкофюзеляжный, широкофюзеляжный).
     /// </summary>
     public required AircraftFamily Family { get; set; }
 
     /// <summary>
-    /// Flight range in kilometers.
+    /// Дальность полета в километрах.
     /// </summary>
     public required double FlightRange { get; set; }
 
     /// <summary>
-    /// Passenger capacity.
+    /// Вместимость пассажиров.
     /// </summary>
     public required int PassengerCapacity { get; set; }
 
     /// <summary>
-    /// Cargo capacity in tons.
+    /// Вместимость груза в тоннах.
     /// </summary>
     public required double CargoCapacity { get; set; }
 
     /// <summary>
-    /// List of flights operated with this aircraft model.
+    /// Список рейсов, выполняемых с использованием этой модели самолета.
     /// </summary>
     public List<Flight>? Flights { get; set; } = new List<Flight>();
 }
