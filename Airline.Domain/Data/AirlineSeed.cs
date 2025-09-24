@@ -2,14 +2,40 @@
 
 namespace Airline.Domain.Data;
 
+/// <summary>
+/// Класс, представляющий набор исходных данных для авиакомпании.
+/// Содержит коллекции всех сущностей: семейства самолетов, модели, рейсы, пассажиры и билеты.
+/// </summary>
 public class AirlineSeed
 {
+    /// <summary>
+    /// Коллекция семейств самолетов.
+    /// </summary>
     public List<AircraftFamily> Families { get; } = new();
+
+    /// <summary>
+    /// Коллекция моделей самолетов.
+    /// </summary>
     public List<AircraftModel> Models { get; } = new();
+
+    /// <summary>
+    /// Коллекция рейсов.
+    /// </summary>
     public List<Flight> Flights { get; } = new();
+
+    /// <summary>
+    /// Коллекция пассажиров.
+    /// </summary>
     public List<Passenger> Passengers { get; } = new();
+
+    /// <summary>
+    /// Коллекция билетов.
+    /// </summary>
     public List<Ticket> Tickets { get; } = new();
 
+    /// <summary>
+    /// Счётчик для генерации уникальных идентификаторов билетов.
+    /// </summary>
     private int _ticketId = 1;
 
     /// <summary>
