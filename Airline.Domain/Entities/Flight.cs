@@ -40,10 +40,12 @@ public class Flight
     /// </summary>
     public TimeSpan? TravelTime { get; set; }
 
+    public required int AircraftModelId { get; set; }
+
     /// <summary>
     /// Модель самолета, используемого для рейса.
     /// </summary>
-    public required AircraftModel AircraftModel { get; set; }
+    public AircraftModel? AircraftModel { get; set; }
 
     /// <summary>
     /// Список билетов, оформленных на этот рейс.

@@ -15,10 +15,11 @@ public class AircraftModel
     /// </summary>
     public required string ModelName { get; set; }
 
+    public int FamilyId { get; set; }
     /// <summary>
     /// Семейство самолета (например, узкофюзеляжный, широкофюзеляжный).
     /// </summary>
-    public required AircraftFamily Family { get; set; }
+    public AircraftFamily? Family { get; set; }
 
     /// <summary>
     /// Дальность полета в километрах.

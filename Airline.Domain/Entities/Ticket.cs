@@ -10,15 +10,19 @@ public class Ticket
     /// </summary>
     public required int Id { get; set; }
 
+    public required int FlightId { get; set; }
+
     /// <summary>
     /// Рейс, на который оформлен билет.
     /// </summary>
-    public required Flight Flight { get; set; }
+    public Flight? Flight { get; set; }
+
+    public required int PassengerId { get; set; }
 
     /// <summary>
     /// Пассажир, на которого оформлен билет.
     /// </summary>
-    public required Passenger Passenger { get; set; }
+    public Passenger? Passenger { get; set; }
 
     /// <summary>
     /// Номер места в самолете.
