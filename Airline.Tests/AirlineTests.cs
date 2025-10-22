@@ -15,7 +15,7 @@ public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
     [Fact]
     public void TopFlightsByPassengerCount_ShouldBeCorrectlyOrdered()
     {
-        var topFlights = fixture.Flights
+        var topFlights = AirlineSeed.Flights
             .OrderByDescending(f => f.Tickets?.Count ?? 0)
             .Take(5)
             .ToList();
@@ -39,8 +39,8 @@ public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
     [Fact]
     public void FlightsWithShortestDuration_ShouldMatchMinimalTime()
     {
-        var shortestTime = fixture.Flights.Min(f => f.TravelTime);
-        var flights = fixture.Flights
+        var shortestTime = AirlineSeed.Flights.Min(f => f.TravelTime);
+        var flights = AirlineSeed.Flights
             .Where(f => f.TravelTime == shortestTime)
             .ToList();
 
@@ -54,7 +54,7 @@ public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
     [Fact]
     public void PassengersWithoutBaggage_ShouldBeSortedByName()
     {
-        var flight = fixture.Flights.First();
+        var flight = AirlineSeed.Flights.First();
         var passengers = flight.Tickets?
             .Where(t => t.BaggageWeight == 0)
             .Select(t => t.Passenger)
@@ -72,11 +72,11 @@ public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
     [Fact]
     public void FlightsOfModelWithinPeriod_ShouldReturnCorrectFlights()
     {
-        var model = fixture.Models.Last();
+        var model = AirlineSeed.Models.Last();
         var from = new DateTime(2025, 10, 1);
         var to = new DateTime(2025, 10, 31);
 
-        var flights = fixture.Flights
+        var flights = AirlineSeed.Flights
             .Where(f => f.AircraftModel == model &&
                         f.DepartureDate >= from &&
                         f.ArrivalDate <= to)
@@ -99,7 +99,7 @@ public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
         var departure = "LED";
         var arrival = "JFK";
 
-        var flights = fixture.Flights
+        var flights = AirlineSeed.Flights
             .Where(f => f.DepartureAirport == departure && f.ArrivalAirport == arrival)
             .ToList();
 

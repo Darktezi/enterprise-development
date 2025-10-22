@@ -1,6 +1,8 @@
 ﻿using Airline.Domain.Data;
 using Airline.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace Airline.Infrastructure.EfCore;
 public class AirlineDbContext(DbContextOptions options) : DbContext(options)

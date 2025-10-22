@@ -7,16 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Domain", "Airline.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Tests", "Airline.Tests\Airline.Tests.csproj", "{442E3306-519F-43C4-BE5F-3D0C1030375C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Infrastructure.EfCore", "Airline.Infrastructure\Airline.Infrastructure.EfCore.csproj", "{998D06EC-F6BA-4B1A-BAED-B4F99751922B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9C210FF2-BC7A-452B-A767-796B05B28B5F} = {9C210FF2-BC7A-452B-A767-796B05B28B5F}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.API", "Airline.API\Airline.API.csproj", "{164B85C6-48DC-8BC4-40C3-B15FBF4FF7CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.AppHost", "Airline.AppHost\Airline.AppHost.csproj", "{81042131-0127-41E1-BC0E-1353967C51D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.ServiceDefaults", "Airline.ServiceDefaults\Airline.ServiceDefaults.csproj", "{AB4A2E61-005D-D6AF-C18F-732B6C13F746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Infrastructure.EfCore", "Airline.Infrastructure.EfCore\Airline.Infrastructure.EfCore.csproj", "{5B693723-703C-4B13-9931-D3A82453FC81}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9C210FF2-BC7A-452B-A767-796B05B28B5F} = {9C210FF2-BC7A-452B-A767-796B05B28B5F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +32,6 @@ Global
 		{442E3306-519F-43C4-BE5F-3D0C1030375C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{442E3306-519F-43C4-BE5F-3D0C1030375C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{442E3306-519F-43C4-BE5F-3D0C1030375C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{998D06EC-F6BA-4B1A-BAED-B4F99751922B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{998D06EC-F6BA-4B1A-BAED-B4F99751922B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{998D06EC-F6BA-4B1A-BAED-B4F99751922B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{998D06EC-F6BA-4B1A-BAED-B4F99751922B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{164B85C6-48DC-8BC4-40C3-B15FBF4FF7CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{164B85C6-48DC-8BC4-40C3-B15FBF4FF7CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{164B85C6-48DC-8BC4-40C3-B15FBF4FF7CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,6 +44,10 @@ Global
 		{AB4A2E61-005D-D6AF-C18F-732B6C13F746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB4A2E61-005D-D6AF-C18F-732B6C13F746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB4A2E61-005D-D6AF-C18F-732B6C13F746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B693723-703C-4B13-9931-D3A82453FC81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B693723-703C-4B13-9931-D3A82453FC81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B693723-703C-4B13-9931-D3A82453FC81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B693723-703C-4B13-9931-D3A82453FC81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
