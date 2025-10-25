@@ -19,7 +19,7 @@ public class AircraftModel
     /// <summary>
     /// Семейство самолета (например, узкофюзеляжный, широкофюзеляжный).
     /// </summary>
-    public AircraftFamily? Family { get; set; }
+    public virtual AircraftFamily? Family { get; set; }
 
     /// <summary>
     /// Дальность полета в километрах.
@@ -39,5 +39,5 @@ public class AircraftModel
     /// <summary>
     /// Список рейсов, выполняемых с использованием этой модели самолета.
     /// </summary>
-    public List<Flight>? Flights { get; set; } = new List<Flight>();
+    public virtual List<Flight>? Flights { get; set; } = new List<Flight>();
 }

@@ -38,6 +38,6 @@ public class Passenger
     /// <summary>
     /// Список билетов, приобретённых пассажиром.
     /// </summary>
-    public List<Ticket>? Tickets { get; set; } = new List<Ticket>();
+    public virtual List<Ticket>? Tickets { get; set; } = new List<Ticket>();
 
 }

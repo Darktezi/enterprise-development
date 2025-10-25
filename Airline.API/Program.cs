@@ -1,19 +1,29 @@
-﻿using Airline.Application.Contracts.Flights;
+﻿using Airline.Application;
+using Airline.Application.Contracts.Flights;
+using Airline.Domain;
+using Airline.Domain.Entities;
 using Airline.Infrastructure.EfCore;
-using Airline.Application;
+using Airline.Infrastructure.EfCore.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Настройка Automapper
+builder.AddServiceDefaults();
+
 builder.Services.AddAutoMapper(typeof(AirlineProfile));
 
-// Подключаем контекст БД
-builder.Services.AddDbContext<AirlineDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AirlineDb")));
+builder.Services.AddScoped<IFlightService, FlightService>();
+builder.Services.AddScoped<IRepository<Flight, int>, FlightEfCoreRepository>();
+builder.Services.AddScoped<IRepository<AircraftFamily, int>, AircraftFamilyEfCoreRepository>();
+builder.Services.AddScoped<IRepository<AircraftModel, int>, AircraftModelEfCoreRepository>();
+builder.Services.AddScoped<IRepository<Passenger, int>, PassengerEfCoreRepository>();
+builder.Services.AddScoped<IRepository<Ticket, int>, TicketEfCoreRepository>();
 
-// Контроллеры и Swagger
+builder.AddSqlServerDbContext<AirlineDbContext>("Database",
+    configureDbContextOptions: db =>
+        db.UseLazyLoadingProxies());
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -24,15 +34,13 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Сервисы
-builder.Services.AddScoped<IFlightService, FlightService>();
 
 var app = builder.Build();
 
+app.MapDefaultEndpoints();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
-
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AirlineDbContext>();
     db.Database.Migrate();
@@ -42,5 +50,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
 app.MapControllers();
 app.Run();

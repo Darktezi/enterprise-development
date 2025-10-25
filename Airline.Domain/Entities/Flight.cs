@@ -45,10 +45,10 @@ public class Flight
     /// <summary>
     /// Модель самолета, используемого для рейса.
     /// </summary>
-    public AircraftModel? AircraftModel { get; set; }
+    public virtual AircraftModel? AircraftModel { get; set; }
 
     /// <summary>
     /// Список билетов, оформленных на этот рейс.
     /// </summary>
-    public List<Ticket>? Tickets { get; set; } = new List<Ticket>();
+    public virtual List<Ticket>? Tickets { get; set; } = new List<Ticket>();
 }

@@ -19,7 +19,6 @@ public class AircraftFamiliesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<object>>> GetFamilies()
     {
-        // Простой запрос без Include чтобы избежать циклических ссылок
         var families = await _context.Families
             .Select(f => new
             {

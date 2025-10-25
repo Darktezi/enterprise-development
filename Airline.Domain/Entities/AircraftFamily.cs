@@ -23,5 +23,5 @@ public class AircraftFamily
     /// <summary>
     /// Список моделей самолетов, относящихся к этому семейству.
     /// </summary>
-    public List<AircraftModel>? Models { get; set; } = new List<AircraftModel>();
+    public virtual List<AircraftModel>? Models { get; set; } = new List<AircraftModel>();
 }

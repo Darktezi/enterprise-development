@@ -1,30 +1,30 @@
 ﻿using Airline.Application.Contracts.Flights;
-using Airline.Infrastructure.EfCore;
+using Airline.Domain;
+using Airline.Domain.Entities;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 
 namespace Airline.Application.Services;
 
 public class FlightService : IFlightService
 {
-    private readonly AirlineDbContext _context;
+    private readonly IRepository<Flight, int> _flightRepository;
     private readonly IMapper _mapper;
 
-    public FlightService(AirlineDbContext context, IMapper mapper)
+    public FlightService(IRepository<Flight, int> flightRepository, IMapper mapper)
     {
-        _context = context;
+        _flightRepository = flightRepository;
         _mapper = mapper;
     }
 
     public async Task<List<FlightDto>> GetTopFlightsByPassengerCountAsync(int count = 5)
     {
-        var flights = await _context.Flights
-            .Include(f => f.AircraftModel)
-            .Include(f => f.Tickets)
-            .OrderByDescending(f => f.Tickets.Count)
-            .Take(count)
-            .ToListAsync();
+        var allFlights = await _flightRepository.ReadAll();
 
-        return _mapper.Map<List<FlightDto>>(flights);
+        var topFlights = allFlights
+            .OrderByDescending(f => f.Tickets?.Count ?? 0)
+            .Take(count)
+            .ToList();
+
+        return _mapper.Map<List<FlightDto>>(topFlights);
     }
 }
