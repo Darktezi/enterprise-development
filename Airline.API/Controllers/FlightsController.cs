@@ -10,7 +10,7 @@ namespace Airline.API.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class FlightsController(IFlightService service, ILogger<FlightsController> logger) : ControllerBase
+public class FlightsController(IFlightServiceAnalytic service, ILogger<FlightsController> logger) : ControllerBase
 {
     /// <summary>
     /// Получает список топ-N рейсов с наибольшим количеством пассажиров.

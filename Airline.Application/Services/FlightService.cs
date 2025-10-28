@@ -10,7 +10,7 @@ namespace Airline.Application.Services;
 /// </summary>
 public class FlightService(
     IRepository<Domain.Entities.Flight, int> flightRepository,
-    IMapper mapper) : IFlightService
+    IMapper mapper) : IFlightServiceAnalytic
 {
 
     /// <summary>

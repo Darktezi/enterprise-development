@@ -12,7 +12,7 @@ namespace Airline.API.Controllers;
 /// <param name="logger">Логгер для записи диагностических сообщений.</param>
 [ApiController]
 [Route("api/[controller]")]
-public class PassengersController(IPassengerService service, ILogger<PassengersController> logger) : ControllerBase
+public class PassengersController(IPassengerServiceAnalytic service, ILogger<PassengersController> logger) : ControllerBase
 {
     /// <summary>
     /// Получает список пассажиров указанного рейса, не имеющих зарегистрированного багажа.

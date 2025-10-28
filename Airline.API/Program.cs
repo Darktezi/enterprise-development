@@ -19,8 +19,8 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new AirlineProfile());
 });
 
-builder.Services.AddScoped<IFlightService, FlightService>();
-builder.Services.AddScoped<IPassengerService, PassengerService>();
+builder.Services.AddScoped<IFlightServiceAnalytic, FlightService>();
+builder.Services.AddScoped<IPassengerServiceAnalytic, PassengerService>();
 builder.Services.AddScoped<IRepository<Flight, int>, FlightEfCoreRepository>();
 builder.Services.AddScoped<IRepository<AirlineFamily, int>, AircraftFamilyEfCoreRepository>();
 builder.Services.AddScoped<IRepository<AirlineModel, int>, AircraftModelEfCoreRepository>();

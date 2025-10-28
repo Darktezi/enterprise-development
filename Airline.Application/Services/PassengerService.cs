@@ -10,7 +10,7 @@ namespace Airline.Application.Services;
 /// </summary>
 public class PassengerService(
     IRepository<Domain.Entities.Passenger, int> passengerRepository,
-    IMapper mapper) : IPassengerService
+    IMapper mapper) : IPassengerServiceAnalytic
 {
     /// <summary>
     /// Возвращает список пассажиров указанного рейса, у которых отсутствует зарегистрированный багаж
