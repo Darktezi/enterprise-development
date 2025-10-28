@@ -4,15 +4,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Airline.Infrastructure.EfCore.Repositories;
 
-public class AircraftFamilyEfCoreRepository(AirlineDbContext context) : IRepository<AircraftFamily, int>
+/// <summary>
+/// Репозиторий для работы с семействами воздушных судов (AirlineFamily) на основе Entity Framework Core.
+/// Реализует интерфейс IRepository для операций создания, чтения, обновления и удаления.
+/// </summary>
+public class AircraftFamilyEfCoreRepository(AirlineDbContext context) : IRepository<AirlineFamily, int>
 {
-    public async Task<AircraftFamily> Create(AircraftFamily entity)
+    /// <summary>
+    /// Создаёт новое семейство воздушных судов в базе данных.
+    /// </summary>
+    /// <param name="entity">Сущность семейства для сохранения.</param>
+    /// <returns>Созданная сущность с присвоенным идентификатором.</returns>
+    public async Task<AirlineFamily> Create(AirlineFamily entity)
     {
         var result = await context.Families.AddAsync(entity);
         await context.SaveChangesAsync();
         return result.Entity;
     }
 
+    /// <summary>
+    /// Удаляет семейство воздушных судов по его идентификатору.
+    /// </summary>
+    /// <param name="entityId">Идентификатор удаляемого семейства.</param>
+    /// <returns>True, если сущность была найдена и удалена; иначе false.</returns>
     public async Task<bool> Delete(int entityId)
     {
         var entity = await context.Families.FirstOrDefaultAsync(e => e.Id == entityId);
@@ -23,17 +37,31 @@ public class AircraftFamilyEfCoreRepository(AirlineDbContext context) : IReposit
         return true;
     }
 
-    public async Task<AircraftFamily?> Read(int entityId) =>
+    /// <summary>
+    /// Получает семейство воздушных судов по идентификатору, включая связанные модели самолётов.
+    /// </summary>
+    /// <param name="entityId">Идентификатор запрашиваемого семейства.</param>
+    /// <returns>Найденная сущность или null, если не найдена.</returns>
+    public async Task<AirlineFamily?> Read(int entityId) =>
         await context.Families
             .Include(af => af.Models)
             .FirstOrDefaultAsync(e => e.Id == entityId);
 
-    public async Task<IList<AircraftFamily>> ReadAll() =>
+    /// <summary>
+    /// Получает список всех семейств воздушных судов, включая связанные модели самолётов.
+    /// </summary>
+    /// <returns>Список всех семейств.</returns>
+    public async Task<IList<AirlineFamily>> ReadAll() =>
         await context.Families
             .Include(af => af.Models)
             .ToListAsync();
 
-    public async Task<AircraftFamily> Update(AircraftFamily entity)
+    /// <summary>
+    /// Обновляет существующее семейство воздушных судов в базе данных.
+    /// </summary>
+    /// <param name="entity">Обновлённая сущность семейства.</param>
+    /// <returns>Обновлённая сущность с актуальными данными из базы (включая связанные модели).</returns>
+    public async Task<AirlineFamily> Update(AirlineFamily entity)
     {
         context.Families.Update(entity);
         await context.SaveChangesAsync();

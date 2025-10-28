@@ -10,6 +10,10 @@ public class Ticket
     /// </summary>
     public required int Id { get; set; }
 
+    /// <summary>
+    /// Идентификатор рейса, на который оформлен билет.
+    /// Связан с сущностью <see cref="Flight"/>.
+    /// </summary>
     public required int FlightId { get; set; }
 
     /// <summary>
@@ -17,6 +21,10 @@ public class Ticket
     /// </summary>
     public virtual Flight? Flight { get; set; }
 
+    /// <summary>
+    /// Идентификатор пассажира, на которого оформлен билет.
+    /// Связан с сущностью <see cref="Passenger"/>.
+    /// </summary>
     public required int PassengerId { get; set; }
 
     /// <summary>

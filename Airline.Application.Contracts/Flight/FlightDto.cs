@@ -1,4 +1,4 @@
-﻿namespace Airline.Application.Contracts.Flights;
+﻿namespace Airline.Application.Contracts.Flight;
 
 public record FlightDto(
     int Id,

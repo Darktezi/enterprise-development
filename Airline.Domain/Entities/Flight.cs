@@ -40,12 +40,16 @@ public class Flight
     /// </summary>
     public TimeSpan? TravelTime { get; set; }
 
+    /// <summary>
+    /// Идентификатор модели воздушного судна, на котором выполняется рейс.
+    /// Связан с сущностью <see cref="AirlineModel"/>.
+    /// </summary>
     public required int AircraftModelId { get; set; }
 
     /// <summary>
     /// Модель самолета, используемого для рейса.
     /// </summary>
-    public virtual AircraftModel? AircraftModel { get; set; }
+    public virtual AirlineModel? AircraftModel { get; set; }
 
     /// <summary>
     /// Список билетов, оформленных на этот рейс.

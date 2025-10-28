@@ -7,7 +7,7 @@ namespace Airline.Tests;
 /// Юнит-тесты для проверки выборок и агрегатов
 /// на данных <see cref="AirlineSeed"/>.
 /// </summary>
-public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
+public class AirlineTests
 {
     /// <summary>
     /// Проверка: топ-5 рейсов с наибольшим числом пассажиров.
@@ -58,12 +58,13 @@ public class AirlineTests(AirlineSeed fixture) : IClassFixture<AirlineSeed>
         var passengers = flight.Tickets?
             .Where(t => t.BaggageWeight == 0)
             .Select(t => t.Passenger)
-            .OrderBy(p => p.LastName)
-            .ThenBy(p => p.FirstName)
-            .ToList() ?? new List<Passenger>();
+            .Where(p => p != null)
+            .OrderBy(p => p!.LastName)
+            .ThenBy(p => p!.FirstName)
+            .ToList() ?? new List<Passenger?>();
 
         Assert.All(passengers, p =>
-            Assert.Contains(p.Tickets ?? new List<Ticket>(), t => t.Flight == flight && t.BaggageWeight == 0));
+            Assert.Contains(p!.Tickets ?? new List<Ticket>(), t => t.Flight == flight && t.BaggageWeight == 0));
     }
 
     /// <summary>

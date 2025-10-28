@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Airline.Infrastructure.EfCore.Migrations
 {
     [DbContext(typeof(AirlineDbContext))]
-    [Migration("20251022154429_InitialCreate")]
+    [Migration("20251028145803_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,11 +21,14 @@ namespace Airline.Infrastructure.EfCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Airline.Domain.Entities.AircraftFamily", b =>
+            modelBuilder.Entity("Airline.Domain.Entities.AirlineFamily", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,7 +111,7 @@ namespace Airline.Infrastructure.EfCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Airline.Domain.Entities.AircraftModel", b =>
+            modelBuilder.Entity("Airline.Domain.Entities.AirlineModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,11 +289,11 @@ namespace Airline.Infrastructure.EfCore.Migrations
                             Id = 2,
                             AircraftModelId = 2,
                             ArrivalAirport = "LHR",
-                            ArrivalDate = new DateTime(2025, 9, 2, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            ArrivalDate = new DateTime(2025, 9, 2, 15, 0, 0, 0, DateTimeKind.Unspecified),
                             Code = "SU1002",
                             DepartureAirport = "LED",
                             DepartureDate = new DateTime(2025, 9, 2, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            TravelTime = new TimeSpan(0, 4, 0, 0, 0)
+                            TravelTime = new TimeSpan(0, 3, 0, 0, 0)
                         },
                         new
                         {
@@ -308,11 +311,11 @@ namespace Airline.Infrastructure.EfCore.Migrations
                             Id = 4,
                             AircraftModelId = 4,
                             ArrivalAirport = "FRA",
-                            ArrivalDate = new DateTime(2025, 9, 4, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            ArrivalDate = new DateTime(2025, 9, 4, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             Code = "SU1004",
                             DepartureAirport = "LED",
                             DepartureDate = new DateTime(2025, 9, 4, 15, 0, 0, 0, DateTimeKind.Unspecified),
-                            TravelTime = new TimeSpan(0, 4, 0, 0, 0)
+                            TravelTime = new TimeSpan(0, 3, 0, 0, 0)
                         },
                         new
                         {
@@ -330,11 +333,11 @@ namespace Airline.Infrastructure.EfCore.Migrations
                             Id = 6,
                             AircraftModelId = 6,
                             ArrivalAirport = "JFK",
-                            ArrivalDate = new DateTime(2025, 9, 6, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            ArrivalDate = new DateTime(2025, 9, 6, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Code = "SU1006",
                             DepartureAirport = "LED",
                             DepartureDate = new DateTime(2025, 9, 6, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            TravelTime = new TimeSpan(0, 4, 0, 0, 0)
+                            TravelTime = new TimeSpan(0, 2, 0, 0, 0)
                         },
                         new
                         {
@@ -546,7 +549,7 @@ namespace Airline.Infrastructure.EfCore.Migrations
                         {
                             Id = 2,
                             BaggageWeight = 1.0,
-                            FlightId = 2,
+                            FlightId = 1,
                             HasHandLuggage = false,
                             PassengerId = 2,
                             SeatNumber = "13A"
@@ -555,8 +558,8 @@ namespace Airline.Infrastructure.EfCore.Migrations
                         {
                             Id = 3,
                             BaggageWeight = 0.0,
-                            FlightId = 3,
-                            HasHandLuggage = true,
+                            FlightId = 1,
+                            HasHandLuggage = false,
                             PassengerId = 3,
                             SeatNumber = "14A"
                         },
@@ -564,7 +567,7 @@ namespace Airline.Infrastructure.EfCore.Migrations
                         {
                             Id = 4,
                             BaggageWeight = 1.0,
-                            FlightId = 4,
+                            FlightId = 2,
                             HasHandLuggage = false,
                             PassengerId = 4,
                             SeatNumber = "15A"
@@ -573,7 +576,7 @@ namespace Airline.Infrastructure.EfCore.Migrations
                         {
                             Id = 5,
                             BaggageWeight = 0.0,
-                            FlightId = 5,
+                            FlightId = 2,
                             HasHandLuggage = true,
                             PassengerId = 5,
                             SeatNumber = "16A"
@@ -625,9 +628,9 @@ namespace Airline.Infrastructure.EfCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Airline.Domain.Entities.AircraftModel", b =>
+            modelBuilder.Entity("Airline.Domain.Entities.AirlineModel", b =>
                 {
-                    b.HasOne("Airline.Domain.Entities.AircraftFamily", "Family")
+                    b.HasOne("Airline.Domain.Entities.AirlineFamily", "Family")
                         .WithMany("Models")
                         .HasForeignKey("FamilyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -638,7 +641,7 @@ namespace Airline.Infrastructure.EfCore.Migrations
 
             modelBuilder.Entity("Airline.Domain.Entities.Flight", b =>
                 {
-                    b.HasOne("Airline.Domain.Entities.AircraftModel", "AircraftModel")
+                    b.HasOne("Airline.Domain.Entities.AirlineModel", "AircraftModel")
                         .WithMany("Flights")
                         .HasForeignKey("AircraftModelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -666,12 +669,12 @@ namespace Airline.Infrastructure.EfCore.Migrations
                     b.Navigation("Passenger");
                 });
 
-            modelBuilder.Entity("Airline.Domain.Entities.AircraftFamily", b =>
+            modelBuilder.Entity("Airline.Domain.Entities.AirlineFamily", b =>
                 {
                     b.Navigation("Models");
                 });
 
-            modelBuilder.Entity("Airline.Domain.Entities.AircraftModel", b =>
+            modelBuilder.Entity("Airline.Domain.Entities.AirlineModel", b =>
                 {
                     b.Navigation("Flights");
                 });

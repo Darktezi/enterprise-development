@@ -3,7 +3,7 @@
 /// <summary>
 /// Класс, представляющий семейство самолетов.
 /// </summary>
-public class AircraftFamily
+public class AirlineFamily
 {
     /// <summary>
     /// Уникальный идентификатор семейства самолетов.
@@ -23,5 +23,5 @@ public class AircraftFamily
     /// <summary>
     /// Список моделей самолетов, относящихся к этому семейству.
     /// </summary>
-    public virtual List<AircraftModel>? Models { get; set; } = new List<AircraftModel>();
+    public virtual List<AirlineModel>? Models { get; set; } = new List<AirlineModel>();
 }

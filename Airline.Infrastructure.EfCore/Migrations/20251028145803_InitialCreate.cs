@@ -178,11 +178,11 @@ namespace Airline.Infrastructure.EfCore.Migrations
                 values: new object[,]
                 {
                     { 1, 1, "JFK", new DateTime(2025, 9, 1, 14, 0, 0, 0, DateTimeKind.Unspecified), "SU1001", "SVO", new DateTime(2025, 9, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
-                    { 2, 2, "LHR", new DateTime(2025, 9, 2, 16, 0, 0, 0, DateTimeKind.Unspecified), "SU1002", "LED", new DateTime(2025, 9, 2, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
+                    { 2, 2, "LHR", new DateTime(2025, 9, 2, 15, 0, 0, 0, DateTimeKind.Unspecified), "SU1002", "LED", new DateTime(2025, 9, 2, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0) },
                     { 3, 3, "CDG", new DateTime(2025, 9, 3, 13, 0, 0, 0, DateTimeKind.Unspecified), "SU1003", "SVO", new DateTime(2025, 9, 3, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
-                    { 4, 4, "FRA", new DateTime(2025, 9, 4, 19, 0, 0, 0, DateTimeKind.Unspecified), "SU1004", "LED", new DateTime(2025, 9, 4, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
+                    { 4, 4, "FRA", new DateTime(2025, 9, 4, 18, 0, 0, 0, DateTimeKind.Unspecified), "SU1004", "LED", new DateTime(2025, 9, 4, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 3, 0, 0, 0) },
                     { 5, 5, "AMS", new DateTime(2025, 9, 5, 12, 0, 0, 0, DateTimeKind.Unspecified), "SU1005", "SVO", new DateTime(2025, 9, 5, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
-                    { 6, 6, "JFK", new DateTime(2025, 9, 6, 15, 0, 0, 0, DateTimeKind.Unspecified), "SU1006", "LED", new DateTime(2025, 9, 6, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
+                    { 6, 6, "JFK", new DateTime(2025, 9, 6, 13, 0, 0, 0, DateTimeKind.Unspecified), "SU1006", "LED", new DateTime(2025, 9, 6, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0) },
                     { 7, 7, "LHR", new DateTime(2025, 9, 7, 17, 0, 0, 0, DateTimeKind.Unspecified), "SU1007", "SVO", new DateTime(2025, 9, 7, 13, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
                     { 8, 8, "CDG", new DateTime(2025, 9, 8, 11, 0, 0, 0, DateTimeKind.Unspecified), "SU1008", "LED", new DateTime(2025, 9, 8, 7, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
                     { 9, 9, "FRA", new DateTime(2025, 9, 9, 18, 0, 0, 0, DateTimeKind.Unspecified), "SU1009", "SVO", new DateTime(2025, 9, 9, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0) },
@@ -195,10 +195,10 @@ namespace Airline.Infrastructure.EfCore.Migrations
                 values: new object[,]
                 {
                     { 1, 0.0, 1, true, 1, "12A" },
-                    { 2, 1.0, 2, false, 2, "13A" },
-                    { 3, 0.0, 3, true, 3, "14A" },
-                    { 4, 1.0, 4, false, 4, "15A" },
-                    { 5, 0.0, 5, true, 5, "16A" },
+                    { 2, 1.0, 1, false, 2, "13A" },
+                    { 3, 0.0, 1, false, 3, "14A" },
+                    { 4, 1.0, 2, false, 4, "15A" },
+                    { 5, 0.0, 2, true, 5, "16A" },
                     { 6, 1.0, 6, false, 6, "17A" },
                     { 7, 0.0, 7, true, 7, "18A" },
                     { 8, 1.0, 8, false, 8, "19A" },

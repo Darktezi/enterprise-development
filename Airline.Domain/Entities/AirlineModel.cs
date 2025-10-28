@@ -3,7 +3,7 @@
 /// <summary>
 /// Класс, представляющий модель самолета.
 /// </summary>
-public class AircraftModel
+public class AirlineModel
 {
     /// <summary>
     /// Уникальный идентификатор модели самолета.
@@ -15,11 +15,16 @@ public class AircraftModel
     /// </summary>
     public required string ModelName { get; set; }
 
+    /// <summary>
+    /// Идентификатор семейства воздушных судов, к которому принадлежит данная модель.
+    /// Связан с сущностью <see cref="AirlineFamily"/>.
+    /// </summary>
     public int FamilyId { get; set; }
+
     /// <summary>
     /// Семейство самолета (например, узкофюзеляжный, широкофюзеляжный).
     /// </summary>
-    public virtual AircraftFamily? Family { get; set; }
+    public virtual AirlineFamily? Family { get; set; }
 
     /// <summary>
     /// Дальность полета в километрах.

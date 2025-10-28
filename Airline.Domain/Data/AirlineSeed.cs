@@ -8,30 +8,39 @@ namespace Airline.Domain.Data;
 /// </summary>
 public class AirlineSeed
 {
-    public static readonly List<AircraftFamily> Families = [
-        new AircraftFamily { Id = 1, Name = "Boeing 737", Manufacturer = "Boeing" },
-        new AircraftFamily { Id = 2, Name = "Airbus A320", Manufacturer = "Airbus" },
-        new AircraftFamily { Id = 3, Name = "Boeing 777", Manufacturer = "Boeing" },
-        new AircraftFamily { Id = 4, Name = "Airbus A330", Manufacturer = "Airbus" },
-        new AircraftFamily { Id = 5, Name = "Embraer E190", Manufacturer = "Embraer" },
-        new AircraftFamily { Id = 6, Name = "Bombardier CS300", Manufacturer = "Bombardier" },
-        new AircraftFamily { Id = 7, Name = "Boeing 787", Manufacturer = "Boeing" },
-        new AircraftFamily { Id = 8, Name = "Airbus A350", Manufacturer = "Airbus" },
-        new AircraftFamily { Id = 9, Name = "Sukhoi Superjet 100", Manufacturer = "Sukhoi" },
-        new AircraftFamily { Id = 10, Name = "Comac C919", Manufacturer = "Comac" }];
+    /// <summary>
+    /// Список семейств воздушных судов (например, Boeing 737, Airbus A320).
+    /// </summary>
+    public static readonly List<AirlineFamily> Families = [
+        new AirlineFamily { Id = 1, Name = "Boeing 737", Manufacturer = "Boeing" },
+        new AirlineFamily { Id = 2, Name = "Airbus A320", Manufacturer = "Airbus" },
+        new AirlineFamily { Id = 3, Name = "Boeing 777", Manufacturer = "Boeing" },
+        new AirlineFamily { Id = 4, Name = "Airbus A330", Manufacturer = "Airbus" },
+        new AirlineFamily { Id = 5, Name = "Embraer E190", Manufacturer = "Embraer" },
+        new AirlineFamily { Id = 6, Name = "Bombardier CS300", Manufacturer = "Bombardier" },
+        new AirlineFamily { Id = 7, Name = "Boeing 787", Manufacturer = "Boeing" },
+        new AirlineFamily { Id = 8, Name = "Airbus A350", Manufacturer = "Airbus" },
+        new AirlineFamily { Id = 9, Name = "Sukhoi Superjet 100", Manufacturer = "Sukhoi" },
+        new AirlineFamily { Id = 10, Name = "Comac C919", Manufacturer = "Comac" }];
 
-    public static readonly List<AircraftModel> Models = [
-        new AircraftModel { Id = 1, ModelName = "737-800", FlightRange = 5000, PassengerCapacity = 160, CargoCapacity = 8000, FamilyId = 1 },
-        new AircraftModel { Id = 2, ModelName = "A320-200", FlightRange = 6100, PassengerCapacity = 150, CargoCapacity = 7500, FamilyId = 2 },
-        new AircraftModel { Id = 3, ModelName = "777-300ER", FlightRange = 13600, PassengerCapacity = 300, CargoCapacity = 18000, FamilyId = 3 },
-        new AircraftModel { Id = 4, ModelName = "A330-300", FlightRange = 11700, PassengerCapacity = 280, CargoCapacity = 15000, FamilyId = 4 },
-        new AircraftModel { Id = 5, ModelName = "E190", FlightRange = 4000, PassengerCapacity = 100, CargoCapacity = 4000, FamilyId = 5 },
-        new AircraftModel { Id = 6, ModelName = "CS300", FlightRange = 3600, PassengerCapacity = 130, CargoCapacity = 5000, FamilyId = 6 },
-        new AircraftModel { Id = 7, ModelName = "787-9", FlightRange = 14100, PassengerCapacity = 280, CargoCapacity = 16000, FamilyId = 7 },
-        new AircraftModel { Id = 8, ModelName = "A350-900", FlightRange = 15000, PassengerCapacity = 300, CargoCapacity = 17000, FamilyId = 8 },
-        new AircraftModel { Id = 9, ModelName = "SSJ100", FlightRange = 3000, PassengerCapacity = 98, CargoCapacity = 3500, FamilyId = 9 },
-        new AircraftModel { Id = 10, ModelName = "C919", FlightRange = 4000, PassengerCapacity = 156, CargoCapacity = 7000, FamilyId = 10 }];
+    /// <summary>
+    /// Список конкретных моделей воздушных судов с характеристиками (дальность, вместимость и т.д.).
+    /// </summary>
+    public static readonly List<AirlineModel> Models = [
+        new AirlineModel { Id = 1, ModelName = "737-800", FlightRange = 5000, PassengerCapacity = 160, CargoCapacity = 8000, FamilyId = 1 },
+        new AirlineModel { Id = 2, ModelName = "A320-200", FlightRange = 6100, PassengerCapacity = 150, CargoCapacity = 7500, FamilyId = 2 },
+        new AirlineModel { Id = 3, ModelName = "777-300ER", FlightRange = 13600, PassengerCapacity = 300, CargoCapacity = 18000, FamilyId = 3 },
+        new AirlineModel { Id = 4, ModelName = "A330-300", FlightRange = 11700, PassengerCapacity = 280, CargoCapacity = 15000, FamilyId = 4 },
+        new AirlineModel { Id = 5, ModelName = "E190", FlightRange = 4000, PassengerCapacity = 100, CargoCapacity = 4000, FamilyId = 5 },
+        new AirlineModel { Id = 6, ModelName = "CS300", FlightRange = 3600, PassengerCapacity = 130, CargoCapacity = 5000, FamilyId = 6 },
+        new AirlineModel { Id = 7, ModelName = "787-9", FlightRange = 14100, PassengerCapacity = 280, CargoCapacity = 16000, FamilyId = 7 },
+        new AirlineModel { Id = 8, ModelName = "A350-900", FlightRange = 15000, PassengerCapacity = 300, CargoCapacity = 17000, FamilyId = 8 },
+        new AirlineModel { Id = 9, ModelName = "SSJ100", FlightRange = 3000, PassengerCapacity = 98, CargoCapacity = 3500, FamilyId = 9 },
+        new AirlineModel { Id = 10, ModelName = "C919", FlightRange = 4000, PassengerCapacity = 156, CargoCapacity = 7000, FamilyId = 10 }];
 
+    /// <summary>
+    /// Список запланированных авиарейсов с информацией о маршрутах, времени вылета/прилёта и используемой модели самолёта.
+    /// </summary>
     public static readonly List<Flight> Flights = [
         new Flight
         {
@@ -51,8 +60,8 @@ public class AirlineSeed
             DepartureAirport = "LED",
             ArrivalAirport = "LHR",
             DepartureDate = new DateTime(2025,9,2,12,0,0),
-            ArrivalDate = new DateTime(2025,9,2,16,0,0),
-            TravelTime = TimeSpan.FromHours(4),
+            ArrivalDate = new DateTime(2025,9,2,15,0,0),
+            TravelTime = TimeSpan.FromHours(3),
             AircraftModelId = 2
         },
         new Flight
@@ -73,8 +82,8 @@ public class AirlineSeed
             DepartureAirport = "LED",
             ArrivalAirport = "FRA",
             DepartureDate = new DateTime(2025,9,4,15,0,0),
-            ArrivalDate = new DateTime(2025,9,4,19,0,0),
-            TravelTime = TimeSpan.FromHours(4),
+            ArrivalDate = new DateTime(2025,9,4,18,0,0),
+            TravelTime = TimeSpan.FromHours(3),
             AircraftModelId = 4
         },
         new Flight
@@ -95,8 +104,8 @@ public class AirlineSeed
             DepartureAirport = "LED",
             ArrivalAirport = "JFK",
             DepartureDate = new DateTime(2025,9,6,11,0,0),
-            ArrivalDate = new DateTime(2025,9,6,15,0,0),
-            TravelTime = TimeSpan.FromHours(4),
+            ArrivalDate = new DateTime(2025,9,6,13,0,0),
+            TravelTime = TimeSpan.FromHours(2),
             AircraftModelId = 6
         },
         new Flight
@@ -144,6 +153,9 @@ public class AirlineSeed
             AircraftModelId = 10
         }];
 
+    /// <summary>
+    /// Список пассажиров с персональными данными и паспортной информацией.
+    /// </summary>
     public static readonly List<Passenger> Passengers = [
         new Passenger
         {
@@ -236,15 +248,18 @@ public class AirlineSeed
             BirthDate = new DateOnly(1994,8,25)
         }];
 
+    /// <summary>
+    /// Список билетов, связывающих пассажиров с конкретными рейсами, местами и багажом.
+    /// </summary>
     public static readonly List<Ticket> Tickets = [
         new Ticket { Id = 1, FlightId = 1, PassengerId = 1, SeatNumber = "12A", HasHandLuggage = true, BaggageWeight = 0 },
-        new Ticket { Id = 2, FlightId = 2, PassengerId = 2, SeatNumber = "13A", HasHandLuggage = false, BaggageWeight = 1 },
-        new Ticket { Id = 3, FlightId = 3, PassengerId = 3, SeatNumber = "14A", HasHandLuggage = true, BaggageWeight = 0 },
-        new Ticket { Id = 4, FlightId = 4, PassengerId = 4, SeatNumber = "15A", HasHandLuggage = false, BaggageWeight = 1 },
-        new Ticket { Id = 5, FlightId = 5, PassengerId = 5, SeatNumber = "16A", HasHandLuggage = true, BaggageWeight = 0 },
+        new Ticket { Id = 2, FlightId = 1, PassengerId = 2, SeatNumber = "13A", HasHandLuggage = false, BaggageWeight = 1 },
+        new Ticket { Id = 3, FlightId = 1, PassengerId = 3, SeatNumber = "14A", HasHandLuggage = false, BaggageWeight = 0 },
+        new Ticket { Id = 4, FlightId = 2, PassengerId = 4, SeatNumber = "15A", HasHandLuggage = false, BaggageWeight = 1 },
+        new Ticket { Id = 5, FlightId = 2, PassengerId = 5, SeatNumber = "16A", HasHandLuggage = true, BaggageWeight = 0 },
         new Ticket { Id = 6, FlightId = 6, PassengerId = 6, SeatNumber = "17A", HasHandLuggage = false, BaggageWeight = 1 },
         new Ticket { Id = 7, FlightId = 7, PassengerId = 7, SeatNumber = "18A", HasHandLuggage = true, BaggageWeight = 0 },
         new Ticket { Id = 8, FlightId = 8, PassengerId = 8, SeatNumber = "19A", HasHandLuggage = false, BaggageWeight = 1 },
         new Ticket { Id = 9, FlightId = 9, PassengerId = 9, SeatNumber = "20A", HasHandLuggage = true, BaggageWeight = 0 },
-        new Ticket { Id = 10, FlightId = 10, PassengerId = 10, SeatNumber = "21A", HasHandLuggage = false, BaggageWeight = 1 }];
+        new Ticket { Id = 10, FlightId = 10, PassengerId = 10, SeatNumber = "21A", HasHandLuggage = false, BaggageWeight = 1 },];
 }

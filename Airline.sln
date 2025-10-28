@@ -24,6 +24,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Application.Contrac
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.Application", "Airline.Application\Airline.Application.csproj", "{C4B91AE1-2F5A-460A-8972-96E43AAB20A4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9C210FF2-BC7A-452B-A767-796B05B28B5F} = {9C210FF2-BC7A-452B-A767-796B05B28B5F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airline.AppHost", "Airline.AppHost\Airline.AppHost.csproj", "{1BF23661-33FC-4582-8588-C238F12BEE0D}"
 EndProject
