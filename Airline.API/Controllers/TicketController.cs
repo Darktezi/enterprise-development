@@ -1,6 +1,5 @@
 ﻿using Airline.Application.Contracts;
 using Airline.Application.Contracts.Ticket;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Airline.API.Controllers;
 
