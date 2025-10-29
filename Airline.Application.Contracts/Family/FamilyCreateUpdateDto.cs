@@ -3,13 +3,11 @@
 namespace Airline.Application.Contracts.Family;
 
 /// <summary>
-/// DTO для GET запросов к семействам самолётов.
+/// DTO для PUT/POST запросов к семействам самолётов.
 /// </summary>
-/// <param name="Id">Уникальный идентификатор семейства самолётов</param>
 /// <param name="Name">Название семейства самолётов (например, "Boeing 737")</param>
 /// <param name="Manufacturer">Производитель самолётов данного семейства (например, "Boeing")</param>
-public record FamilyDto(
-    int Id,
+public record FamilyCreateUpdateDto(
     string? Name,
     string? Manufacturer
 );

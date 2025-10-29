@@ -4,16 +4,14 @@ using Airline.Application.Contracts.Flight;
 namespace Airline.Application.Contracts.Model;
 
 /// <summary>
-/// DTO для GET запросов к моделям самолётов.
+/// DTO для PUT/POST запросов к моделям самолётов.
 /// </summary>
-/// <param name="Id">Уникальный идентификатор модели самолёта</param>
 /// <param name="ModelName">Название модели самолёта (например, "Boeing 737")</param>
 /// <param name="FamilyId">Идентификатор семейства воздушных судов, к которому принадлежит модель</param>
 /// <param name="FlightRange">Дальность полёта в километрах</param>
 /// <param name="PassengerCapacity">Вместимость пассажиров</param>
 /// <param name="CargoCapacity">Вместимость груза в тоннах</param>
-public record ModelDto(
-    int Id,
+public record ModelCreateUpdateDto(
     string? ModelName,
     int? FamilyId,
     double? FlightRange,

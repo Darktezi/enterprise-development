@@ -3,7 +3,7 @@
 /// <summary>
 /// Предоставляет операции для запроса и анализа данных об авиарейсах.
 /// </summary>
-public interface IFlightServiceAnalytic
+public interface IFlightService
 {
     /// <summary>
     /// Возвращает топ-N авиарейсов с наибольшим количеством пассажиров.

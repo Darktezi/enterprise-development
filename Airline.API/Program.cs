@@ -1,6 +1,10 @@
 ﻿using Airline.Application;
+using Airline.Application.Contracts;
+using Airline.Application.Contracts.Family;
 using Airline.Application.Contracts.Flight;
+using Airline.Application.Contracts.Model;
 using Airline.Application.Contracts.Passenger;
+using Airline.Application.Contracts.Ticket;
 using Airline.Application.Services;
 using Airline.Domain;
 using Airline.Domain.Entities;
@@ -19,8 +23,13 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile(new AirlineProfile());
 });
 
-builder.Services.AddScoped<IFlightServiceAnalytic, FlightService>();
-builder.Services.AddScoped<IPassengerServiceAnalytic, PassengerService>();
+builder.Services.AddScoped<IFlightService, FlightService>();
+builder.Services.AddScoped<IApplicationService<FlightDto, FlightCreateUpdateDto, int>, FlightService>();
+builder.Services.AddScoped<IPassengerService, PassengerService>();
+builder.Services.AddScoped<IApplicationService<PassengerDto, PassengerCreateUpdateDto, int>, PassengerService>();
+builder.Services.AddScoped<IApplicationService<FamilyDto, FamilyCreateUpdateDto, int>, FamilyService>();
+builder.Services.AddScoped<IApplicationService<ModelDto, ModelCreateUpdateDto, int>, ModelService>();
+builder.Services.AddScoped<IApplicationService<TicketDto, TicketCreateUpdateDto, int>, TicketService>();
 builder.Services.AddScoped<IRepository<Flight, int>, FlightEfCoreRepository>();
 builder.Services.AddScoped<IRepository<AirlineFamily, int>, AircraftFamilyEfCoreRepository>();
 builder.Services.AddScoped<IRepository<AirlineModel, int>, AircraftModelEfCoreRepository>();
@@ -46,6 +55,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(basePath, "Airline.API.xml"));
     options.IncludeXmlComments(Path.Combine(basePath, "Airline.Domain.xml"));
     options.IncludeXmlComments(Path.Combine(basePath, "Airline.Application.xml"));
+    options.IncludeXmlComments(Path.Combine(basePath, "Airline.Application.Contracts.xml"));
 });
 
 var app = builder.Build();

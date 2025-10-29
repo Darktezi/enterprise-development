@@ -1,35 +1,31 @@
-﻿using Airline.Application.Contracts.Passenger;
+﻿using Airline.Application.Contracts;
+using Airline.Application.Contracts.Passenger;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Airline.API.Controllers;
 
 /// <summary>
-/// Контроллер для работы с пассажирами.
-/// Предоставляет эндпоинты для получения информации о пассажирах по дополнительным критериям
-/// (например, пассажиры без багажа на конкретном рейсе).
+/// Контроллер для CRUD-операций над пассажирами
 /// </summary>
-/// <param name="service">Сервис для выполнения бизнес-логики, связанной с пассажирами.</param>
-/// <param name="logger">Логгер для записи диагностических сообщений.</param>
-[ApiController]
-[Route("api/[controller]")]
-public class PassengersController(IPassengerServiceAnalytic service, ILogger<PassengersController> logger) : ControllerBase
+/// <param name="crudService">Сервис пассажиров</param>
+/// <param name="passengerService">Аналитический сервис пассажиров</param>
+/// <param name="logger">Логгер</param>
+public class PassengersController(
+    IApplicationService<PassengerDto, PassengerCreateUpdateDto, int> crudService,
+    IPassengerService passengerService,
+    ILogger<PassengersController> logger)
+    : CrudControllerBase<PassengerDto, PassengerCreateUpdateDto, int>(crudService, logger)
 {
     /// <summary>
-    /// Получает список пассажиров указанного рейса, не имеющих зарегистрированного багажа.
+    /// Получение пассажиров рейса без багажа
     /// </summary>
-    /// <param name="flightId">Идентификатор рейса.(например, 1)</param>
-    /// <returns>Список пассажиров без багажа или NoContent, если таких нет.</returns>
-    /// <response code="200">Пассажиры успешно найдены.</response>
-    /// <response code="204">Пассажиры без багажа на указанном рейсе отсутствуют.</response>
-    /// <response code="500">Внутренняя ошибка сервера.</response>
     [HttpGet("flight/{flightId}/without-baggage")]
     public async Task<ActionResult<List<PassengerDto>>> GetPassengersWithoutBaggage(int flightId)
     {
         logger.LogInformation("Getting passengers without baggage for flight {FlightId}", flightId);
-
         try
         {
-            var passengers = await service.GetPassengersWithoutBaggageAsync(flightId);
+            var passengers = await passengerService.GetPassengersWithoutBaggageAsync(flightId);
             return passengers.Count > 0 ? Ok(passengers) : NoContent();
         }
         catch (Exception ex)

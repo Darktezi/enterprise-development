@@ -1,16 +1,22 @@
-﻿using Airline.Application.Contracts.Flight;
+﻿using Airline.Application.Contracts;
+using Airline.Application.Contracts.Flight;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Airline.API.Controllers;
 
 /// <summary>
 /// Контроллер для работы с авиарейсами.
-/// Предоставляет эндпоинты для получения рейсов по различным критериям:
+/// Предоставляет эндпоинты для CRUD-операций и аналитики рейсов:
 /// топ по количеству пассажиров, кратчайшая длительность, маршрут, модель самолёта и период.
 /// </summary>
-[ApiController]
-[Route("api/[controller]")]
-public class FlightsController(IFlightServiceAnalytic service, ILogger<FlightsController> logger) : ControllerBase
+/// <param name="crudService">CRUD-сервис рейсов</param>
+/// <param name="analyticService">Аналитический сервис рейсов</param>
+/// <param name="logger">Логгер</param>
+public class FlightsController(
+    IApplicationService<FlightDto, FlightCreateUpdateDto, int> crudService,
+    IFlightService analyticService,
+    ILogger<FlightsController> logger)
+    : CrudControllerBase<FlightDto, FlightCreateUpdateDto, int>(crudService, logger)
 {
     /// <summary>
     /// Получает список топ-N рейсов с наибольшим количеством пассажиров.
@@ -27,7 +33,7 @@ public class FlightsController(IFlightServiceAnalytic service, ILogger<FlightsCo
 
         try
         {
-            var flights = await service.GetTopFlightsByPassengerCountAsync(count);
+            var flights = await analyticService.GetTopFlightsByPassengerCountAsync(count);
             return flights.Count > 0 ? Ok(flights) : NoContent();
         }
         catch (Exception ex)
@@ -51,7 +57,7 @@ public class FlightsController(IFlightServiceAnalytic service, ILogger<FlightsCo
 
         try
         {
-            var flights = await service.GetFlightsWithShortestDurationAsync();
+            var flights = await analyticService.GetFlightsWithShortestDurationAsync();
             return flights.Count > 0 ? Ok(flights) : NoContent();
         }
         catch (Exception ex)
@@ -77,7 +83,7 @@ public class FlightsController(IFlightServiceAnalytic service, ILogger<FlightsCo
 
         try
         {
-            var flights = await service.GetFlightsByRouteAsync(departure, arrival);
+            var flights = await analyticService.GetFlightsByRouteAsync(departure, arrival);
             return flights.Count > 0 ? Ok(flights) : NoContent();
         }
         catch (Exception ex)
@@ -110,7 +116,7 @@ public class FlightsController(IFlightServiceAnalytic service, ILogger<FlightsCo
             var fromDateTime = from.ToDateTime(TimeOnly.MinValue);
             var toDateTime = to.ToDateTime(TimeOnly.MaxValue);
 
-            var flights = await service.GetFlightsByModelAndPeriodAsync(modelId, fromDateTime, toDateTime);
+            var flights = await analyticService.GetFlightsByModelAndPeriodAsync(modelId, fromDateTime, toDateTime);
 
             return flights.Count > 0 ? Ok(flights) : NoContent();
         }
@@ -120,5 +126,4 @@ public class FlightsController(IFlightServiceAnalytic service, ILogger<FlightsCo
             return StatusCode(500, "Internal server error");
         }
     }
-
 }
