@@ -53,7 +53,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     var basePath = AppContext.BaseDirectory;
 
-    options.IncludeXmlComments(Path.Combine(basePath, "Airline.API.xml"));
+    options.IncludeXmlComments(Path.Combine(basePath, "Airline.Api.xml"));
     options.IncludeXmlComments(Path.Combine(basePath, "Airline.Domain.xml"));
     options.IncludeXmlComments(Path.Combine(basePath, "Airline.Application.xml"));
     options.IncludeXmlComments(Path.Combine(basePath, "Airline.Application.Contracts.xml"));
