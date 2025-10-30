@@ -10,8 +10,8 @@
 /// <param name="DepartureDate">Дата и время вылета</param>
 /// <param name="ArrivalDate">Дата и время прилёта</param>
 /// <param name="TravelTime">Время в пути</param>
-/// <param name="AircraftModel">Модель самолёта</param>
 /// <param name="TicketsCount">Количество билетов</param>
+/// <param name="AircraftModelId">Идентификатор модели самолета</param>
 public record FlightDto(
     int Id,
     string? Code,
@@ -20,6 +20,6 @@ public record FlightDto(
     DateTime? DepartureDate,
     DateTime? ArrivalDate,
     TimeSpan? TravelTime,
-    string? AircraftModel,
-    int? TicketsCount
+    int? TicketsCount,
+    int AircraftModelId
 );

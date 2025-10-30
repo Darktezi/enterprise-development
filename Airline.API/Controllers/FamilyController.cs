@@ -1,7 +1,9 @@
 ﻿using Airline.Application.Contracts;
 using Airline.Application.Contracts.Family;
+using Airline.Application.Contracts.Model;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Airline.API.Controllers;
+namespace Airline.Api.Controllers;
 
 /// <summary>
 /// Контроллер для CRUD-операций над семействами самолетов

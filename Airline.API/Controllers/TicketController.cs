@@ -1,7 +1,7 @@
 ﻿using Airline.Application.Contracts;
 using Airline.Application.Contracts.Ticket;
 
-namespace Airline.API.Controllers;
+namespace Airline.Api.Controllers;
 
 /// <summary>
 /// Контроллер для CRUD-операций над билетами

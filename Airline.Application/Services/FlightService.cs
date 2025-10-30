@@ -59,7 +59,7 @@ public class FlightService(
     {
         var existingFlight = await flightRepository.Read(dtoId);
         if (existingFlight == null)
-            throw new ArgumentException($"Flight with id {dtoId} not found");
+            throw new KeyNotFoundException($"Flight with id {dtoId} not found");
 
         mapper.Map(dto, existingFlight);
         var res = await flightRepository.Update(existingFlight);

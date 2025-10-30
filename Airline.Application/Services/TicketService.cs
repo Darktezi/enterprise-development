@@ -12,7 +12,7 @@ namespace Airline.Application.Services;
 /// <param name="ticketRepository">Репозиторий билетов</param>
 /// <param name="mapper">Профиль маппинга</param>
 public class TicketService(IRepository<Ticket, int> ticketRepository, IMapper mapper)
-    : IApplicationService<TicketDto, TicketCreateUpdateDto, int>
+    : ITicketService, IApplicationService<TicketDto, TicketCreateUpdateDto, int>
 {
     /// <summary>
     /// Создание нового билета
@@ -59,10 +59,40 @@ public class TicketService(IRepository<Ticket, int> ticketRepository, IMapper ma
     {
         var existingTicket = await ticketRepository.Read(dtoId);
         if (existingTicket == null)
-            throw new ArgumentException($"Ticket with id {dtoId} not found");
+            throw new KeyNotFoundException($"Ticket with id {dtoId} not found");
 
         mapper.Map(dto, existingTicket);
         var res = await ticketRepository.Update(existingTicket);
         return mapper.Map<TicketDto>(res);
+    }
+
+    /// <summary>
+    /// Получает все билеты для указанного рейса
+    /// </summary>
+    /// <param name="flightId">Идентификатор рейса</param>
+    /// <returns>Список билетов на рейс</returns>
+    public async Task<List<TicketDto>> GetTicketsByFlightAsync(int flightId)
+    {
+        var tickets = await ticketRepository.ReadAll();
+        var flightTickets = tickets
+            .Where(t => t.FlightId == flightId)
+            .ToList();
+            
+        return mapper.Map<List<TicketDto>>(flightTickets);
+    }
+
+    /// <summary>
+    /// Получает все билеты для указанного пассажира
+    /// </summary>
+    /// <param name="passengerId">Идентификатор пассажира</param>
+    /// <returns>Список билетов пассажира</returns>
+    public async Task<List<TicketDto>> GetTicketsByPassengerAsync(int passengerId)
+    {
+        var tickets = await ticketRepository.ReadAll();
+        var passengerTickets = tickets
+            .Where(t => t.PassengerId == passengerId)
+            .ToList();
+            
+        return mapper.Map<List<TicketDto>>(passengerTickets);
     }
 }

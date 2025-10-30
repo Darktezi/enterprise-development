@@ -1,36 +1,41 @@
 ﻿using Airline.Application.Contracts;
 using Airline.Application.Contracts.Passenger;
+using Airline.Application.Contracts.Ticket;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Airline.API.Controllers;
+namespace Airline.Api.Controllers;
 
 /// <summary>
 /// Контроллер для CRUD-операций над пассажирами
 /// </summary>
 /// <param name="crudService">Сервис пассажиров</param>
-/// <param name="passengerService">Аналитический сервис пассажиров</param>
+/// <param name="ticketService">Сервис билетов</param>
 /// <param name="logger">Логгер</param>
 public class PassengersController(
     IApplicationService<PassengerDto, PassengerCreateUpdateDto, int> crudService,
-    IPassengerService passengerService,
+    ITicketService ticketService,
     ILogger<PassengersController> logger)
     : CrudControllerBase<PassengerDto, PassengerCreateUpdateDto, int>(crudService, logger)
 {
     /// <summary>
-    /// Получение пассажиров рейса без багажа
+    /// Получает все билеты для указанного пассажира
     /// </summary>
-    [HttpGet("flight/{flightId}/without-baggage")]
-    public async Task<ActionResult<List<PassengerDto>>> GetPassengersWithoutBaggage(int flightId)
+    /// <param name="passengerId">Идентификатор пассажира</param>
+    /// <returns>Список билетов пассажира</returns>
+    /// <response code="200">Билеты успешно получены</response>
+    /// <response code="500">Внутренняя ошибка сервера</response>
+    [HttpGet("{passengerId}/tickets")]
+    public async Task<ActionResult<List<TicketDto>>> GetPassengerTickets(int passengerId)
     {
-        logger.LogInformation("Getting passengers without baggage for flight {FlightId}", flightId);
+        logger.LogInformation("Getting tickets for passenger {PassengerId}", passengerId);
         try
         {
-            var passengers = await passengerService.GetPassengersWithoutBaggageAsync(flightId);
-            return passengers.Count > 0 ? Ok(passengers) : NoContent();
+            var tickets = await ticketService.GetTicketsByPassengerAsync(passengerId);
+            return Ok(tickets);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error getting passengers without baggage");
+            logger.LogError(ex, "Error getting passenger tickets");
             return StatusCode(500, "Internal server error");
         }
     }

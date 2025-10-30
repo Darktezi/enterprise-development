@@ -1,8 +1,10 @@
 ﻿using Airline.Application.Contracts;
 using Airline.Application.Contracts.Flight;
+using Airline.Application.Contracts.Passenger;
+using Airline.Application.Contracts.Ticket;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Airline.API.Controllers;
+namespace Airline.Api.Controllers;
 
 /// <summary>
 /// Контроллер для работы с авиарейсами.
@@ -10,11 +12,15 @@ namespace Airline.API.Controllers;
 /// топ по количеству пассажиров, кратчайшая длительность, маршрут, модель самолёта и период.
 /// </summary>
 /// <param name="crudService">CRUD-сервис рейсов</param>
-/// <param name="analyticService">Аналитический сервис рейсов</param>
+/// <param name="flightService">Cервис рейсов</param>
+/// <param name="passengerService">Cервис рейсов</param>
+/// <param name="ticketService">Cервис рейсов</param>
 /// <param name="logger">Логгер</param>
 public class FlightsController(
     IApplicationService<FlightDto, FlightCreateUpdateDto, int> crudService,
-    IFlightService analyticService,
+    IFlightService flightService,
+    IPassengerService passengerService,
+    ITicketService ticketService,
     ILogger<FlightsController> logger)
     : CrudControllerBase<FlightDto, FlightCreateUpdateDto, int>(crudService, logger)
 {
@@ -33,8 +39,8 @@ public class FlightsController(
 
         try
         {
-            var flights = await analyticService.GetTopFlightsByPassengerCountAsync(count);
-            return flights.Count > 0 ? Ok(flights) : NoContent();
+            var flights = await flightService.GetTopFlightsByPassengerCountAsync(count);
+            return Ok(flights);
         }
         catch (Exception ex)
         {
@@ -57,8 +63,8 @@ public class FlightsController(
 
         try
         {
-            var flights = await analyticService.GetFlightsWithShortestDurationAsync();
-            return flights.Count > 0 ? Ok(flights) : NoContent();
+            var flights = await flightService.GetFlightsWithShortestDurationAsync();
+            return Ok(flights);
         }
         catch (Exception ex)
         {
@@ -76,15 +82,17 @@ public class FlightsController(
     /// <response code="200">Рейсы по маршруту найдены.</response>
     /// <response code="204">Рейсы по указанному маршруту отсутствуют.</response>
     /// <response code="500">Внутренняя ошибка сервера.</response>
-    [HttpGet("route/{departure}/{arrival}")]
-    public async Task<ActionResult<List<FlightDto>>> GetFlightsByRoute(string departure, string arrival)
+    [HttpGet("route")]
+    public async Task<ActionResult<List<FlightDto>>> GetFlightsByRoute(
+    [FromQuery] string departure,
+    [FromQuery] string arrival)
     {
         logger.LogInformation("Getting flights from {Departure} to {Arrival}", departure, arrival);
 
         try
         {
-            var flights = await analyticService.GetFlightsByRouteAsync(departure, arrival);
-            return flights.Count > 0 ? Ok(flights) : NoContent();
+            var flights = await flightService.GetFlightsByRouteAsync(departure, arrival);
+            return Ok(flights);
         }
         catch (Exception ex)
         {
@@ -94,35 +102,47 @@ public class FlightsController(
     }
 
     /// <summary>
-    /// Получает рейсы, выполняемые на указанной модели самолёта в заданный период.
+    /// Получает список пассажиров указанного рейса, у которых отсутствует зарегистрированный багаж
     /// </summary>
-    /// <param name="modelId">Идентификатор модели воздушного судна.(например, 1)</param>
-    /// <param name="from">Начало периода (включительно).(например, "2025-08-12")</param>
-    /// <param name="to">Конец периода (включительно).(например, "2025-11-12")</param>
-    /// <returns>Список рейсов по модели и периоду или NoContent, если рейсы не найдены.</returns>
-    /// <response code="200">Рейсы найдены.</response>
-    /// <response code="204">Рейсы по заданным критериям отсутствуют.</response>
-    /// <response code="500">Внутренняя ошибка сервера.</response>
-    [HttpGet("model/{modelId}/period")]
-    public async Task<ActionResult<List<FlightDto>>> GetFlightsByModelAndPeriod(
-        int modelId,
-        [FromQuery] DateOnly from,
-        [FromQuery] DateOnly to)
+    /// <param name="flightId">Уникальный идентификатор авиарейса</param>
+    /// <returns>Список пассажиров без багажа, отсортированный по фамилии и имени</returns>
+    /// <response code="200">Список пассажиров успешно получен</response>
+    /// <response code="500">Внутренняя ошибка сервера</response>
+    [HttpGet("{flightId}/passengers/without-baggage")]
+    public async Task<ActionResult<List<PassengerDto>>> GetPassengersWithoutBaggage(int flightId)
     {
-        logger.LogInformation("Getting flights for model {ModelId} from {From} to {To}", modelId, from, to);
-
+        logger.LogInformation("Getting passengers without baggage for flight {FlightId}", flightId);
         try
         {
-            var fromDateTime = from.ToDateTime(TimeOnly.MinValue);
-            var toDateTime = to.ToDateTime(TimeOnly.MaxValue);
-
-            var flights = await analyticService.GetFlightsByModelAndPeriodAsync(modelId, fromDateTime, toDateTime);
-
-            return flights.Count > 0 ? Ok(flights) : NoContent();
+            var passengers = await passengerService.GetPassengersWithoutBaggageAsync(flightId);
+            return Ok(passengers);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error getting flights by model and period");
+            logger.LogError(ex, "Error getting passengers without baggage");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    /// Получает все билеты для указанного рейса
+    /// </summary>
+    /// <param name="flightId">Идентификатор рейса</param>
+    /// <returns>Список билетов на рейс</returns>
+    /// <response code="200">Билеты успешно получены</response>
+    /// <response code="500">Внутренняя ошибка сервера</response>
+    [HttpGet("{flightId}/tickets")]
+    public async Task<ActionResult<List<TicketDto>>> GetFlightTickets(int flightId)
+    {
+        logger.LogInformation("Getting tickets for flight {FlightId}", flightId);
+        try
+        {
+            var tickets = await ticketService.GetTicketsByFlightAsync(flightId);
+            return Ok(tickets);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error getting flight tickets");
             return StatusCode(500, "Internal server error");
         }
     }

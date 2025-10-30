@@ -29,6 +29,7 @@ builder.Services.AddScoped<IPassengerService, PassengerService>();
 builder.Services.AddScoped<IApplicationService<PassengerDto, PassengerCreateUpdateDto, int>, PassengerService>();
 builder.Services.AddScoped<IApplicationService<FamilyDto, FamilyCreateUpdateDto, int>, FamilyService>();
 builder.Services.AddScoped<IApplicationService<ModelDto, ModelCreateUpdateDto, int>, ModelService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IApplicationService<TicketDto, TicketCreateUpdateDto, int>, TicketService>();
 builder.Services.AddScoped<IRepository<Flight, int>, FlightEfCoreRepository>();
 builder.Services.AddScoped<IRepository<AirlineFamily, int>, AircraftFamilyEfCoreRepository>();
@@ -59,7 +60,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
-
 
 app.MapDefaultEndpoints();
 

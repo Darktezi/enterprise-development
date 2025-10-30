@@ -58,7 +58,7 @@ public class FamilyService(IRepository<AirlineFamily, int> familyRepository, IMa
     {
         var existingFamily = await familyRepository.Read(dtoId);
         if (existingFamily == null)
-            throw new ArgumentException($"Family with id {dtoId} not found");
+            throw new KeyNotFoundException($"Family with id {dtoId} not found");
 
         mapper.Map(dto, existingFamily);
 

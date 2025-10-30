@@ -60,7 +60,7 @@ public class PassengerService(
     {
         var existingPassenger = await passengerRepository.Read(dtoId);
         if (existingPassenger == null)
-            throw new ArgumentException($"Passenger with id {dtoId} not found");
+            throw new KeyNotFoundException($"Passenger with id {dtoId} not found");
 
         mapper.Map(dto, existingPassenger);
         var res = await passengerRepository.Update(existingPassenger);

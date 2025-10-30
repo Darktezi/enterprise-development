@@ -59,7 +59,7 @@ public class ModelService(IRepository<AirlineModel, int> modelRepository, IMappe
     {
         var existingModel = await modelRepository.Read(dtoId);
         if (existingModel == null)
-            throw new ArgumentException($"Model with id {dtoId} not found");
+            throw new KeyNotFoundException($"Model with id {dtoId} not found");
 
         mapper.Map(dto, existingModel);
         var res = await modelRepository.Update(existingModel);
