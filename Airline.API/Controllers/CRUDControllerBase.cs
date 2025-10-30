@@ -105,7 +105,7 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(IApplicat
     }
 
     /// <summary>
-    /// Выполняет операцию с логированием начала, успешного завершения и ошибок
+    /// Выполняет операцию с логированием начала, успешного завершения и ошибок.
     /// </summary>
     /// <param name="operation">Асинхронная операция для выполнения</param>
     /// <param name="methodName">Название метода для логирования</param>
