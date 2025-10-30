@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Airline.API\Airline.API.csproj" />
+    <ProjectReference Include="..\Airline.Api\Airline.Api.csproj" />
   </ItemGroup>
 
 </Project>
