@@ -12,8 +12,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Airline.Infrastructure.EfCore\Airline.Infrastructure.EfCore.csproj" />
-  </ItemGroup>
-
 </Project>
