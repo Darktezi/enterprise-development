@@ -1,4 +1,5 @@
-﻿using Airline.Application;
+﻿using Airline.Api.Grpc;
+using Airline.Application;
 using Airline.Application.Contracts;
 using Airline.Application.Contracts.Family;
 using Airline.Application.Contracts.Flight;
@@ -41,6 +42,18 @@ builder.AddSqlServerDbContext<AirlineDbContext>("Database",
     configureDbContextOptions: db =>
         db.UseLazyLoadingProxies());
 
+builder.Services.Configure<TicketReceiverOptions>(
+    builder.Configuration.GetSection("TicketReceiver"));
+
+builder.Services.AddGrpc(options =>
+{
+    var ticketReceiverConfig = builder.Configuration.GetSection("TicketReceiver");
+    options.MaxReceiveMessageSize = int.Parse(
+        ticketReceiverConfig["MaxReceiveMessageSizeBytes"] ?? "10485760");
+    options.MaxSendMessageSize = int.Parse(
+        ticketReceiverConfig["MaxSendMessageSizeBytes"] ?? "10485760");
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -72,6 +85,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapGrpcService<TicketReceiverGrpcService>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

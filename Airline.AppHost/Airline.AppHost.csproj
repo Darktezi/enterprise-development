@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Airline.Api\Airline.Api.csproj" />
+    <ProjectReference Include="..\Airline.Grpc.Client\Airline.Grpc.Client.csproj" />
   </ItemGroup>
 
 </Project>

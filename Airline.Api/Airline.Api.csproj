@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\Airline.GrpcContracts\Protos\ticket.proto" GrpcServices="Server" />
     <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.5.2" />
     <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.5.2" />
     <PackageReference Include="AutoMapper" Version="15.1.0" />
@@ -17,6 +18,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
   </ItemGroup>
 
