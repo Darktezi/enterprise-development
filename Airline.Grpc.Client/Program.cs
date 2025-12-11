@@ -1,24 +1,21 @@
-﻿using Airline.Api.Grpc;
-using Airline.Grpc.Client;
+﻿using Airline.Grpc.Client;
 using Airline.ServiceDefaults;
-using Grpc.Net.Client;
+using Microsoft.AspNetCore.Builder;
 
-var builder = Host.CreateApplicationBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-builder.Services.AddHostedService<Worker>();
 
-builder.Services.AddSingleton(serviceProvider =>
-{
-    var apiGrpcUrl = builder.Configuration["ApiGrpcUrl"] ??
-        throw new InvalidOperationException("ApiGrpcUrl не найден в конфигурации");
+// Регистрируем gRPC сервер
+builder.Services.AddGrpc();
 
-    var channel = GrpcChannel.ForAddress(apiGrpcUrl);
-    return new TicketReceiver.TicketReceiverClient(channel);
-});
+var app = builder.Build();
 
-var host = builder.Build();
+app.MapDefaultEndpoints();
 
-host.Services.GetRequiredService<TicketReceiver.TicketReceiverClient>();
+// Маппим gRPC сервис
+app.MapGrpcService<TicketGeneratorGrpcService>();
 
-host.Run();
+app.MapGet("/", () => "Ticket Generator gRPC Server");
+
+app.Run();

@@ -8,11 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Airline.GrpcContracts\Protos\ticket.proto" GrpcServices="Client" />
+    <Protobuf Include="..\Airline.GrpcContracts\Protos\ticket.proto" GrpcServices="Server" />
     <AspireServiceDefaults Include="GrpcDefaultConnection" />
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Google.Protobuf" Version="3.33.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
     <PackageReference Include="Grpc.Tools" Version="2.76.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

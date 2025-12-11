@@ -42,18 +42,6 @@ builder.AddSqlServerDbContext<AirlineDbContext>("Database",
     configureDbContextOptions: db =>
         db.UseLazyLoadingProxies());
 
-builder.Services.Configure<TicketReceiverOptions>(
-    builder.Configuration.GetSection("TicketReceiver"));
-
-builder.Services.AddGrpc(options =>
-{
-    var ticketReceiverConfig = builder.Configuration.GetSection("TicketReceiver");
-    options.MaxReceiveMessageSize = int.Parse(
-        ticketReceiverConfig["MaxReceiveMessageSizeBytes"] ?? "10485760");
-    options.MaxSendMessageSize = int.Parse(
-        ticketReceiverConfig["MaxSendMessageSizeBytes"] ?? "10485760");
-});
-
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -72,6 +60,8 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(basePath, "Airline.Application.Contracts.xml"));
 });
 
+builder.Services.AddHostedService<TicketConsumerService>();
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -85,8 +75,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.MapGrpcService<TicketReceiverGrpcService>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
