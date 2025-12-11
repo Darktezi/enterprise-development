@@ -17,6 +17,7 @@ public class TicketConsumerService : BackgroundService
     private readonly ILogger<TicketConsumerService> _logger;
     private readonly IConfiguration _config;
     private readonly string _generatorUrl;
+    private readonly int _batchSize;
 
     /// <summary>
     /// Инициализирует новый экземпляр сервиса-потребителя билетов.
@@ -34,6 +35,7 @@ public class TicketConsumerService : BackgroundService
         _logger = logger;
         _config = config;
         _generatorUrl = config["GeneratorGrpcUrl"] ?? throw new InvalidOperationException("GeneratorGrpcUrl not configured");
+        _batchSize = config.GetValue<int?>("TicketBatchSize") ?? 10;
     }
 
     /// <summary>
@@ -44,9 +46,8 @@ public class TicketConsumerService : BackgroundService
     /// <param name="stoppingToken">Токен отмены для корректного завершения работы сервиса.</param>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Подключение к генератору билетов: {Url}", _generatorUrl);
+        _logger.LogInformation("Подключение к генератору билетов: {Url}, размер батча: {BatchSize}", _generatorUrl, _batchSize);
 
-        // Создаём gRPC канал к генератору
         var channel = GrpcChannel.ForAddress(_generatorUrl);
         var client = new TicketGenerator.TicketGeneratorClient(channel);
 
@@ -54,17 +55,29 @@ public class TicketConsumerService : BackgroundService
         {
             using var call = client.StreamTickets(cancellationToken: stoppingToken);
 
-            // Задача получения билетов от генератора
+            var ticketBatch = new List<(TicketResponse Data, bool WaitingForResponse)>();
+
             var receiveTask = Task.Run(async () =>
             {
                 await foreach (var ticket in call.ResponseStream.ReadAllAsync(stoppingToken))
                 {
-                    _logger.LogInformation("← Получен билет: Рейс={FlightId}, Пассажир={PassengerId}, Место={Seat}",
+                    _logger.LogInformation("Получен билет: Рейс={FlightId}, Пассажир={PassengerId}, Место={Seat}",
                         ticket.FlightId, ticket.PassengerId, ticket.SeatNumber);
 
-                    var callback = await SaveTicketToDatabase(ticket);
-                    await call.RequestStream.WriteAsync(callback, stoppingToken);
+                    ticketBatch.Add((ticket, true));
+
+                    if (ticketBatch.Count >= _batchSize)
+                    {
+                        await ProcessBatch(ticketBatch, call.RequestStream);
+                        ticketBatch.Clear();
+                    }
                 }
+
+                if (ticketBatch.Count > 0)
+                {
+                    await ProcessBatch(ticketBatch, call.RequestStream);
+                }
+
             }, stoppingToken);
 
             await receiveTask;
@@ -81,39 +94,72 @@ public class TicketConsumerService : BackgroundService
     }
 
     /// <summary>
-    /// Сохраняет данные билета в базу данных после проверки существования
-    /// связанных сущностей (рейса и пассажира).
+    /// Обрабатывает батч билетов - валидирует и сохраняет в БД,
+    /// отправляя статусы обратно генератору.
     /// </summary>
-    /// <param name="ticketData">Данные билета, полученные от генератора.</param>
-    /// <returns>
-    /// Объект <see cref="TicketCallback"/> с результатом обработки:
-    /// </returns>
-    private async Task<TicketCallback> SaveTicketToDatabase(TicketResponse ticketData)
+    /// <param name="batch">Список билетов для обработки.</param>
+    /// <param name="responseWriter">Поток для отправки статусов генератору.</param>
+    private async Task ProcessBatch(
+        List<(TicketResponse Data, bool WaitingForResponse)> batch,
+        IClientStreamWriter<TicketCallback> responseWriter)
     {
         using var scope = _scopeFactory.CreateScope();
         var ticketRepo = scope.ServiceProvider.GetRequiredService<IRepository<Ticket, int>>();
         var flightRepo = scope.ServiceProvider.GetRequiredService<IRepository<Flight, int>>();
         var passengerRepo = scope.ServiceProvider.GetRequiredService<IRepository<Passenger, int>>();
 
+        var successCount = 0;
+        var errorCount = 0;
+
+        foreach (var (ticketData, _) in batch)
+        {
+            var callback = await ValidateAndSaveTicket(
+                ticketData,
+                ticketRepo,
+                flightRepo,
+                passengerRepo);
+
+            if (callback.Success)
+                successCount++;
+            else
+                errorCount++;
+
+            await responseWriter.WriteAsync(callback);
+        }
+
+        _logger.LogInformation("→ Обработан батч: успешно={Success}, ошибок={Errors}", successCount, errorCount);
+    }
+
+    /// <summary>
+    /// Валидирует и сохраняет один билет.
+    /// </summary>
+    /// <param name="ticketData">Данные билета от генератора.</param>
+    /// <param name="ticketRepo">Репозиторий билетов.</param>
+    /// <param name="flightRepo">Репозиторий рейсов.</param>
+    /// <param name="passengerRepo">Репозиторий пассажиров.</param>
+    /// <returns>Статус обработки билета.</returns>
+    private async Task<TicketCallback> ValidateAndSaveTicket(
+        TicketResponse ticketData,
+        IRepository<Ticket, int> ticketRepo,
+        IRepository<Flight, int> flightRepo,
+        IRepository<Passenger, int> passengerRepo)
+    {
         try
         {
-            // Проверяем существование рейса и пассажира
             var flight = await flightRepo.Read(ticketData.FlightId);
-            var passenger = await passengerRepo.Read(ticketData.PassengerId);
-
             if (flight == null)
             {
                 _logger.LogWarning("Рейс {FlightId} не найден", ticketData.FlightId);
                 return new TicketCallback { Success = false, Error = "Рейс не найден" };
             }
 
+            var passenger = await passengerRepo.Read(ticketData.PassengerId);
             if (passenger == null)
             {
                 _logger.LogWarning("Пассажир {PassengerId} не найден", ticketData.PassengerId);
                 return new TicketCallback { Success = false, Error = "Пассажир не найден" };
             }
 
-            // Создаём и сохраняем билет
             var ticket = new Ticket
             {
                 Id = 0,
@@ -125,8 +171,6 @@ public class TicketConsumerService : BackgroundService
             };
 
             await ticketRepo.Create(ticket);
-
-            _logger.LogInformation("→ Билет успешно сохранён в БД");
             return new TicketCallback { Success = true };
         }
         catch (Exception ex)
